@@ -221,5 +221,3 @@ u32 TIM5CH1_CAPTURE_HIGHTIME(void)   //捕捉一次高电平持续的时间
 }
 
 
-
-
