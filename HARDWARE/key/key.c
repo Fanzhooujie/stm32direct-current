@@ -13,7 +13,7 @@
  extern float KP;
  extern float KI;
  extern float KD;
- extern float V;
+ extern float SV;
  extern float GL;
  u8 datatemp[200];
  u8 MODE=1;       //显示模式
@@ -61,10 +61,10 @@ u8 Key_Scan(void)
     GPIO_Write(GPIOF,(GPIOF->ODR & 0xfff0 )| 0x0001);//让PA8-11输出0001，检测第四行
       switch(GPIOF->IDR & 0x00f0)
         {                               //改变数值并写入
-            case 0x0010 : V+=1;sprintf((char*)lcd_X,"V :%0.1f",V);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=1;break;
-            case 0x0020 : V-=1;sprintf((char*)lcd_X,"V :%0.1f",V);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X); keyValue=5;break;				
-            case 0x0040 : V+=10;sprintf((char*)lcd_X,"V :%0.1f",V);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=9;break;
-            case 0x0080 : V-=10;sprintf((char*)lcd_X,"V :%0.1f",V);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=13;break;    
+            case 0x0010 : SV+=1;sprintf((char*)lcd_X,"SV :%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=1;break;
+            case 0x0020 : SV-=1;sprintf((char*)lcd_X,"SV :%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X); keyValue=5;break;				
+            case 0x0040 : SV+=10;sprintf((char*)lcd_X,"SV :%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=9;break;
+            case 0x0080 : SV-=10;sprintf((char*)lcd_X,"SV :%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=13;break;    
         }
 				 while((GPIOF->IDR & 0x00f0)	> 0);  //等待按键释放
     
@@ -94,7 +94,7 @@ u8 Key_Scan(void)
             case 0x0020 : KP-=0.1;sprintf((char*)lcd_X,"KP:%0.2f",KP);AT24CXX_Write(61,(u8*)lcd_X,10);LCD_ShowString(225,20,200,16,16,lcd_X);keyValue=8;break;
             case 0x0040 :LCD_Fill(0,0,340,240,WHITE);MODE=1;keyValue=12;break;
             case 0x0080 : LCD_Fill(210,20,340,120,WHITE); 			
-	                        AT24CXX_Read(0,datatemp,40);V=Translatdata();LCD_ShowString(225,80,200,16,16,datatemp);     //读取改变量
+	                        AT24CXX_Read(0,datatemp,40);SV=Translatdata();LCD_ShowString(225,80,200,16,16,datatemp);     //读取改变量
 		                      AT24CXX_Read(21,datatemp,40);KD=Translatdata();LCD_ShowString(225,60,200,16,16,datatemp);
 					                AT24CXX_Read(41,datatemp,40);KI=Translatdata();LCD_ShowString(225,40,200,16,16,datatemp);
 					                AT24CXX_Read(61,datatemp,40);KP=Translatdata();LCD_ShowString(225,20,200,16,16,datatemp);
@@ -105,8 +105,8 @@ u8 Key_Scan(void)
 
         }
 				 while((GPIOF->IDR & 0x00f0)	> 0);
-				if(V<=0) V=0;
-        else if(V>=200) V=200;
+				if(SV<=0) SV=0;
+        else if(SV>=200) SV=200;
 				if(GL<=0) GL=0.0;
     
     return keyValue;

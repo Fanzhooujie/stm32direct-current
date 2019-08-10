@@ -13,7 +13,7 @@
 float KP=0.10;
 float KI=0.50;
 float KD=0.60;
-float V=25.0;
+float SV=25.0;
 
 unsigned char lcd_X[40];
 unsigned char lcd_DATA[10];
@@ -27,7 +27,7 @@ struct _pid{
  }pid; //定义比例、积分、微分系数
 
 void PID_init(void){
-  pid.SetSpeed=V;
+  pid.SetSpeed=SV;
   pid.OUTPWM=0.0;
   pid.err=0.0;
   pid.err_last=0.0;
@@ -42,7 +42,7 @@ float PID_realize(float Nowspeed){              //目前速度的差速pid
 	pid.Kp=KP;
   pid.Ki=KI;
   pid.Kd=KD;
-	pid.SetSpeed=V;
+	pid.SetSpeed=SV;
   pid.err=pid.SetSpeed-Nowspeed;
   INPWM=pid.Kp*(pid.err-pid.err_next)+pid.Ki*pid.err+pid.Kd*(pid.err-2*pid.err_next+pid.err_last);
   pid.OUTPWM+=INPWM;

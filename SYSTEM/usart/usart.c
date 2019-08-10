@@ -1,5 +1,9 @@
 #include "sys.h"
-#include "usart.h"	  
+#include "usart.h"
+#include "pid.h"
+#include "lcd.h"
+#include "iic.h"
+#include "24C02.h"
 ////////////////////////////////////////////////////////////////////////////////// 	 
 //如果使用ucos,则包括下面的头文件即可.
 #if SYSTEM_SUPPORT_OS
@@ -84,7 +88,8 @@ u8 USART_RX_BUF[USART_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
 //bit15，	接收完成标志
 //bit14，	接收到0x0d
 //bit13~0，	接收到的有效字节数目
-u16 USART_RX_STA=0;       //接收状态标记	  
+u16 USART_RX_STA=0;       //接收状态标记	
+  
   
 void uart_init(u32 bound){
   //GPIO端口设置
@@ -127,6 +132,15 @@ void uart_init(u32 bound){
 
 }
 
+u8 len;
+extern unsigned char lcd_X[40];
+extern u8 datatemp[200];
+extern	float KP;
+extern float KI;
+extern float KD;
+extern float SV;
+extern float GL;
+
 void USART1_IRQHandler(void)                	//串口1中断服务程序
 	{
 	u8 Res;
@@ -143,6 +157,12 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 				{
 				if(Res!=0x0a)USART_RX_STA=0;//接收错误,重新开始
 				else USART_RX_STA|=0x8000;	//接收完成了 
+				if(USART_RX_STA&0x8000)
+				{
+					len=USART_RX_STA&0x3fff;//此次接收到的长度
+					USART_Change(USART_RX_BUF);//引用函数
+					USART_RX_STA=0;//标记为位清零
+				}
 				}
 			else //还没收到0X0D
 				{	
@@ -161,4 +181,59 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 #endif
 } 
 #endif	
+
+void USART_Change(u8 *str)
+{
+  float X,Y;
+	u8 a=0,b=0,c=0,d=0,e=0;
+	while(len--)
+	{ 
+		a++;  //小数点后面位数a-1
+		if(USART_RX_BUF[len-1]=='.')
+	  {len=USART_RX_STA&0x3fff;//长度值复位
+     if     (a==2){X=(USART_RX_BUF[len-1]-'0')*0.1;}//小数点后为一位时的数值
+		 else if(a==3){X=(USART_RX_BUF[len-1]-'0')*0.1+(USART_RX_BUF[len-2]-'0')*0.01;}//小数点后为两位时的数值
+		 break;}
+	}
+	while(len--)
+	{
+		b++; //等号后面的位数b-1
+		if(USART_RX_BUF[len-1]=='=')		
+		{	
+      e=b-a;//等号与小数点之间的位数			
+			len=USART_RX_STA&0x3fff;//长度值复位	
+			c=USART_RX_BUF[1]-'0';//数组的第二个字符
+			d=USART_RX_BUF[0]-'0';//数组的第一个字符
+			if(e==1)  {Y=USART_RX_BUF[3]-'0';}  //只有各位时
+			else if(e==2) {(Y=USART_RX_BUF[3]-'0')*10+USART_RX_BUF[4]-'0';} //有两位数
+			else if(e==3) {(Y=USART_RX_BUF[3]-'0')*100+(Y=USART_RX_BUF[4]-'0')*10+USART_RX_BUF[5]-'0';}	//有三位数		
+			break;				
+		}
+	}
+	 do{
+		 len=USART_RX_STA&0x3fff;//长度值复位	
+		 if(d=='K'&&c=='P')
+		 {
+			 KP=X+Y;sprintf((char*)lcd_X,"KP:%0.2f",KP);AT24CXX_Write(61,(u8*)lcd_X,10);LCD_ShowString(225,20,200,16,16,lcd_X);break;
+		 }
+		 if(d=='K'&&c=='I')
+		 {
+			 KI=X+Y;sprintf((char*)lcd_X,"KI:%0.2f",KI);AT24CXX_Write(41,(u8*)lcd_X,10);LCD_ShowString(225,40,200,16,16,lcd_X);break;
+		 }
+		 if(d=='K'&&c=='D')
+		 {
+			 KD=X+Y;sprintf((char*)lcd_X,"KD:%0.2f",KD);AT24CXX_Write(21,(u8*)lcd_X,10); LCD_ShowString(225,60,200,16,16,lcd_X);break;
+		 }
+		 if(d=='S'&&c=='V')
+		 {
+			 SV=X+Y;sprintf((char*)lcd_X,"SV :%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);break;
+		 }
+		 if(d=='G'&&c=='L')
+		 {
+			 GL=X+Y;sprintf((char*)lcd_X,"GL:%0.2f",GL);AT24CXX_Write(81,(u8*)lcd_X,10); LCD_ShowString(225,100,200,16,16,lcd_X);break;
+		 }
+	 	 
+	 }while(1);
+	
+}
 

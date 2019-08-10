@@ -2880,7 +2880,7 @@ void LCD_dateInit(void)            //显示参数的初始化
  extern float KP;
  extern float KI;
  extern float KD;
- extern float V;
+ extern float SV;
  extern float GL;
 	LCD_Display_Dir(1);   //横屏
     sprintf((char*)lcd_X,"KP:%0.2f",KP);
@@ -2889,7 +2889,7 @@ void LCD_dateInit(void)            //显示参数的初始化
   LCD_ShowString(225,40,200,16,16,lcd_X);
 		sprintf((char*)lcd_X,"KD:%0.2f",KD);
   LCD_ShowString(225,60,200,16,16,lcd_X);
-	  sprintf((char*)lcd_X,"V :%0.1f",V);
+	  sprintf((char*)lcd_X,"SV :%0.1f",SV);
   LCD_ShowString(225,80,200,16,16,lcd_X);
 	  sprintf((char*)lcd_X,"GL:%0.1f",GL);
   LCD_ShowString(225,100,200,16,16,lcd_X);
