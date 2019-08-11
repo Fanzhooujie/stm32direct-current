@@ -162,8 +162,10 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 				{
 					len=USART_RX_STA&0x3fff;//此次接收到的长度
 					USART_Change(USART_RX_BUF);//引用函数
+					memset(USART_RX_BUF,0,sizeof(USART_RX_BUF));//接收数组清零
+		      len=0;//长度清零	
 					USART_RX_STA=0;//标记为位清零
-							LED1!=LED1;
+					LED1!=LED1;
 				}
 			  }
 				}
@@ -240,8 +242,6 @@ void USART_Change(u8 *str)
 			 GL=X+Y;sprintf((char*)lcd_X,"GL:%0.2f",GL);AT24CXX_Write(81,(u8*)lcd_X,10); LCD_ShowString(225,100,200,16,16,lcd_X);
 		 }
 		 delay_ms(1000);
-		 memset(USART_RX_BUF,0,sizeof(USART_RX_BUF));//接收数组清零
-		 len=0;//长度清零	
 }
 
 
