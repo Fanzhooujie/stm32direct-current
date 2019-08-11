@@ -647,7 +647,6 @@ void LCD_Init(void)
 			}
  		}  	
 	} 
- 	printf(" LCD ID:%x\r\n",lcddev.id); //打印LCD ID   
 	if(lcddev.id==0X9341)	//9341初始化
 	{	 
 		LCD_WR_REG(0xCF);  
@@ -2889,7 +2888,7 @@ void LCD_dateInit(void)            //显示参数的初始化
   LCD_ShowString(225,40,200,16,16,lcd_X);
 		sprintf((char*)lcd_X,"KD:%0.2f",KD);
   LCD_ShowString(225,60,200,16,16,lcd_X);
-	  sprintf((char*)lcd_X,"SV :%0.1f",SV);
+	  sprintf((char*)lcd_X,"SV:%0.1f",SV);
   LCD_ShowString(225,80,200,16,16,lcd_X);
 	  sprintf((char*)lcd_X,"GL:%0.1f",GL);
   LCD_ShowString(225,100,200,16,16,lcd_X);

@@ -135,7 +135,7 @@ void TIM5_Cap_Init(u16 arr,u16 psc)
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器 
 	
 	TIM_ITConfig(TIM5,TIM_IT_Update|TIM_IT_CC1,ENABLE);//允许更新中断 ,允许CC1IE捕获中断	
-	
+
    	TIM_Cmd(TIM5,ENABLE ); 	//使能定时器5
    
 
@@ -150,8 +150,8 @@ void TIM5_IRQHandler(void)
 { 
 	extern float GL;
   float number=0.0;
-	if(MODE==1)
-	{
+	//if(MODE==1)
+	//{
 
  	if((TIM5CH1_CAPTURE_STA&0X80)==0)//还未成功捕获	
 	{	  
@@ -186,7 +186,7 @@ void TIM5_IRQHandler(void)
  	}
  
     TIM_ClearITPendingBit(TIM5, TIM_IT_CC1|TIM_IT_Update); //清除中断标志位
-  }
+ /* }
 	else if(MODE==0)                               //捕捉上升沿个数，转动角度值的判断
 	{
         number=GL/360*688/2; 
@@ -200,7 +200,7 @@ void TIM5_IRQHandler(void)
 				 TIM_SetCompare2(TIM3,0);			 
 		 }
 	  TIM_ClearITPendingBit(TIM5,TIM_IT_CC1|TIM_IT_Update);	
-	}
+	}*/
 }
 u32 TIM5CH1_CAPTURE_HIGHTIME(void)   //捕捉一次高电平持续的时间
 {
