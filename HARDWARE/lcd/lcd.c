@@ -2907,8 +2907,9 @@ void LCD_Angle(void)
 	u16 Lastx=20;
 	u16 Lasty=20;
 	float angle;
-	if(sum>=345) sum=0;
-	angle=sum*360/688*2.0; 
+	if(sum>=344) sum=0;
+	angle=sum*360/688*2.0-2;
+  if(angle>GL){angle=0;sum=0;}	
 	LCD_Display_Dir(1);   //∫·∆¡
 	LCD_DrawLine(20,20,20,220);
 	LCD_DrawLine(20,220,220,220);

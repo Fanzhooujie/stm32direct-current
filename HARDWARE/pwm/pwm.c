@@ -46,10 +46,6 @@ void TIM3_IRQHandler(void)   //TIM3中断
 		LED1=!LED1;
 		}
 }
-
-
-
-
 //PWM输出初始化
 //arr：自动重装值
 //psc：时钟预分频数
@@ -86,11 +82,8 @@ void TIM3_PWM_Init(u16 arr,u16 psc)
 	TIM_OC2Init(TIM3, &TIM_OCInitStructure);  //根据TIM_OCInitStruct中指定的参数初始化外设TIMx
 	TIM_OC2PreloadConfig(TIM3, TIM_OCPreload_Enable);  //使能TIMx在CCR2上的预装载寄存器
 	
-	TIM_ARRPreloadConfig(TIM3, ENABLE); //使能TIMx在ARR上的预装载寄存器
-	
- 
-	TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
- 
+	TIM_ARRPreloadConfig(TIM3, ENABLE); //使能TIMx在ARR上的预装载寄存器 
+	TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设 
 
 }
 
@@ -135,7 +128,7 @@ void TIM5_Cap_Init(u16 arr,u16 psc)
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器 
 	
 	TIM_ITConfig(TIM5,TIM_IT_Update|TIM_IT_CC1,ENABLE);//允许更新中断 ,允许CC1IE捕获中断	
-
+  sum=0;
    	TIM_Cmd(TIM5,ENABLE ); 	//使能定时器5
    
 
@@ -148,10 +141,6 @@ u16	TIM5CH1_CAPTURE_VAL;	//输入捕获值
 //定时器5中断服务程序	 
 void TIM5_IRQHandler(void)
 { 
-	extern float GL;
-  float number=0.0;
-	//if(MODE==1)
-	//{
 
  	if((TIM5CH1_CAPTURE_STA&0X80)==0)//还未成功捕获	
 	{	  
@@ -168,7 +157,7 @@ void TIM5_IRQHandler(void)
 			}	 
 		}
 	if (TIM_GetITStatus(TIM5, TIM_IT_CC1) != RESET)//捕获1发生捕获事件
-		{	
+		{	sum++;
 			if(TIM5CH1_CAPTURE_STA&0X40)		//捕获到一个下降沿 		
 			{	  			
 				TIM5CH1_CAPTURE_STA|=0X80;		//标记成功捕获到一次上升沿
@@ -184,23 +173,7 @@ void TIM5_IRQHandler(void)
 			}		    
 		}		
  	}
- 
     TIM_ClearITPendingBit(TIM5, TIM_IT_CC1|TIM_IT_Update); //清除中断标志位
- /* }
-	else if(MODE==0)                               //捕捉上升沿个数，转动角度值的判断
-	{
-        number=GL/360*688/2; 
-	
-     if(TIM_GetITStatus(TIM5,TIM_IT_CC1)) //发生捕获中断
-		 {
-			 sum++;
-			 if(sum<number)
-				 TIM_SetCompare2(TIM3,200);
-			 else if(sum>=number)
-				 TIM_SetCompare2(TIM3,0);			 
-		 }
-	  TIM_ClearITPendingBit(TIM5,TIM_IT_CC1|TIM_IT_Update);	
-	}*/
 }
 u32 TIM5CH1_CAPTURE_HIGHTIME(void)   //捕捉一次高电平持续的时间
 {
