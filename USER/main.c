@@ -9,12 +9,15 @@
 #include "iic.h"
 #include "24C02.h"
 
+extern u8 sum;
 extern u8 MODE;
+extern float GL;
  int main(void)
  {
   float changeDat=0.0; //输出PWM重载值
   float	Rad=0.0;	 	    //电机转速
- 	u32 temp=0; 
+ 	u32 temp=0;
+  float number=0.0;	 
 	delay_init();	    	 //延时函数初始化		 
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	 //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(115200);	 //串口初始化为115200
@@ -25,10 +28,8 @@ extern u8 MODE;
 	BACK_COLOR=WHITE;	 //LCD初始化    
   KEY_Init();        //按键初始化
 	AT24CXX_Init();    //IIC初始化
- 	TIM3_PWM_Init(1000,72-1);	 //不分频。PWM频率=72000000/900=80Khz
-	 
- 	TIM5_Cap_Init(0XFFFF,72-1);	//以1Mhz的频率计数
-	 
+ 	TIM3_PWM_Init(1000,72-1);	 //不分频。PWM频率=72000000/900=80Khz	 
+ 	TIM5_Cap_Init(0XFFFF,72-1);	//以1Mhz的频率计数	 
 	LCD_dateInit();//lcd数值初始化显示
 	LED1=0;
    	while(1)
@@ -43,11 +44,13 @@ extern u8 MODE;
 		Rad=0.00;
 		}
 		else if(MODE==0)                       //角度界面显示
-		{
-		 LCD_Angle();
+		{	 number=GL/360*688/2.0;		
+		   LCD_Angle();
+			 if(sum<number)
+				 TIM_SetCompare2(TIM3,500);
+			 else if(sum>=number)
+				 TIM_SetCompare2(TIM3,0);
 		}
-		else{}
-		
 	}
 }
 
