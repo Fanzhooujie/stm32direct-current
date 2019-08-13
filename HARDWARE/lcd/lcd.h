@@ -170,7 +170,7 @@ void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode);				//显示 数字
 void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p);		//显示一个字符串,12/16字体
 void LCD_Coor(float DATE,float changeDat);                                              //显示速度坐标函数
 void LCD_dateInit(void);                                           //显示数值初始化
-void LCD_Angle(void);                                              //显示角度坐标初始化
+void LCD_Angle(float gle,float changeDat);                                              //显示角度坐标初始化
 
 void LCD_WriteReg(u16 LCD_Reg, u16 LCD_RegValue);
 u16 LCD_ReadReg(u16 LCD_Reg);

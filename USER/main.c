@@ -17,7 +17,8 @@ extern float GL;
   float changeDat=0.0; //输出PWM重载值
   float	Rad=0.0;	 	    //电机转速
  	u32 temp=0;
-  float number=0.0;	 
+  float number=0.0;
+	float angle;	 
 	delay_init();	    	 //延时函数初始化		 
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	 //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(115200);	 //串口初始化为115200
@@ -35,21 +36,24 @@ extern float GL;
    	while(1)
 	{
     Key_Scan();
-		temp=TIM5CH1_CAPTURE_HIGHTIME();
-		Rad=1000000/temp/668.0;
+		temp=TIM5CH1_CAPTURE_HIGHTIME();//一周期脉冲高电平时间
+		Rad=1000000/temp/668.0;     //目前转速
+    if(sum>=344) sum=0; 
+  	angle=sum*360/688*2.0;    //目前角度       
+    if(angle>GL){angle=0;sum=0;}
+	  else if(angle<=0) angle=0;
 		if(MODE==1)                            //速度界面显示
 	  {changeDat=PID_realize(Rad);  	       //占空比重载值
 		TIM_SetCompare2(TIM3,changeDat);	
 		LCD_Coor(Rad,changeDat);
-		Rad=0.00;
 		}
 		else if(MODE==0)                       //角度界面显示
 		{	 number=GL/360*688/2.0;		
-		   LCD_Angle();
 			 if(sum<number)
-				 TIM_SetCompare2(TIM3,500);
+				 changeDat=PID_realize(angle);     //pid控制占空比
 			 else if(sum>=number)
 				 TIM_SetCompare2(TIM3,0);
+			  LCD_Angle(angle,changeDat);
 		}
 	}
 }

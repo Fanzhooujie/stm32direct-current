@@ -2897,19 +2897,19 @@ void LCD_dateInit(void)            //显示参数的初始化
 /*******************************************************************/
 //角度坐标数值显示
 /*******************************************************************/
-void LCD_Angle(void)
+void LCD_Angle(float gle,float changeDat)
 {
 	extern u8 lcd_X[40];
-	extern float GL;
-	extern u32 sum;
+	extern u8 sum;
+  float angle;
+	float Duty;
 	static u16 x=20;
 	static u16 y=20;
 	u16 Lastx=20;
 	u16 Lasty=20;
-	float angle;
-	if(sum>=344) sum=0;
-	angle=sum*360/688*2.0-2;
-  if(angle>GL){angle=0;sum=0;}	
+	angle=gle;
+	Duty=changeDat/10.0;  //占空比
+
 	LCD_Display_Dir(1);   //横屏
 	LCD_DrawLine(20,20,20,220);
 	LCD_DrawLine(20,220,220,220);
@@ -2927,6 +2927,8 @@ void LCD_Angle(void)
   LCD_dateInit();		
 	 sprintf((char*)lcd_X,"angle:%0.2f",angle);
   LCD_ShowString(225,140,200,16,16,lcd_X);
+	 sprintf((char*)lcd_X,"Duty:%0.2f",Duty);
+  LCD_ShowString(225,160,200,16,16,lcd_X);
   Lastx=x;
 	Lasty=y;
 	if(sum==0) y=220;
