@@ -9,7 +9,7 @@
 #include "24C02.h"
 #include "stdlib.h"
 
- extern u8 lcd_X[40];
+ extern u8 lcd_X[80];
  extern float KP;
  extern float KI;
  extern float KD;
@@ -118,7 +118,7 @@ u8 Key_Scan(void)
 float Translatdata(void)
 { 
 	  float x;
-	  char *p=&datatemp[3];
+	  u8 *p=&datatemp[3];
 	  x=atof(p);
 	  LED1=!LED1;	
 	return x;

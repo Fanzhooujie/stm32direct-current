@@ -2832,7 +2832,7 @@ void LCD_Coor(float DATE,float changeDat)
 {	
 
 	float Duty;
-	extern u8 lcd_DATA[10];
+	extern u8 lcd_DATA[80];
 	static u16 x=20;
 	static u16 y=20;
 	u16 Lastx=20;
@@ -2875,7 +2875,7 @@ void LCD_Coor(float DATE,float changeDat)
 /*******************************************************************/
 void LCD_dateInit(void)            //显示参数的初始化
 { 
- extern u8 lcd_X[40];
+ extern u8 lcd_X[80];
  extern float KP;
  extern float KI;
  extern float KD;
@@ -2899,7 +2899,7 @@ void LCD_dateInit(void)            //显示参数的初始化
 /*******************************************************************/
 void LCD_Angle(float gle,float changeDat)
 {
-	extern u8 lcd_X[40];
+	extern u8 lcd_X[80];
 	extern u8 sum;
   float angle;
 	float Duty;

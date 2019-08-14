@@ -37,22 +37,23 @@ extern float GL;
 	{
     Key_Scan();
 		temp=TIM5CH1_CAPTURE_HIGHTIME();//一周期脉冲高电平时间
-		Rad=1000000/temp/668.0;     //目前转速
-    if(sum>=344) sum=0; 
-  	angle=sum*360/688*2.0;    //目前角度       
+		Rad=1000000/temp/668.0;         //目前转速
+    if(sum>=334) sum=0; 
+  	angle=sum*360/668*2.0;         //目前角度       
     if(angle>GL){angle=0;sum=0;}
 	  else if(angle<=0) angle=0;
-		if(MODE==1)                            //速度界面显示
-	  {changeDat=PID_realize(Rad);  	       //占空比重载值
-		TIM_SetCompare2(TIM3,changeDat);	
-		LCD_Coor(Rad,changeDat);
+		if(MODE==1)                         //速度界面显示
+	  {
+			changeDat=PID_realize(Rad);  	       //占空比重载值
+		  TIM_SetCompare2(TIM3,changeDat);	
+		  LCD_Coor(Rad,changeDat);
 		}
-		else if(MODE==0)                       //角度界面显示
-		{	 number=GL/360*688/2.0;		
-			 if(sum<number)
-				 changeDat=PID_realize(angle);     //pid控制占空比
-			 else if(sum>=number)
-				 TIM_SetCompare2(TIM3,0);
+		else if(MODE==0)                    //角度界面显示
+		{	number=GL/360*668/2.0;		
+			if(sum<number)
+				changeDat=PID_realize(angle);    //占空比重载值
+			else if(sum>=number)
+				TIM_SetCompare2(TIM3,0);       //pid控制占空比
 			  LCD_Angle(angle,changeDat);
 		}
 	}

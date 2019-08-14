@@ -16,7 +16,7 @@ float KI=0.50;
 float KD=0.60;
 float SV=25.0;
 
-unsigned char lcd_X[40];
+unsigned char lcd_X[80];
 unsigned char lcd_DATA[10];
 struct _pid{
   float SetSpeed; //定义设定值

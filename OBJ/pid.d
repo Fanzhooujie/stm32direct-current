@@ -4,7 +4,7 @@
 ..\obj\pid.o: ..\SYSTEM\sys\sys.h
 ..\obj\pid.o: ..\USER\stm32f10x.h
 ..\obj\pid.o: ..\CORE\core_cm3.h
-..\obj\pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\pid.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\pid.o: ..\USER\system_stm32f10x.h
 ..\obj\pid.o: ..\USER\stm32f10x_conf.h
 ..\obj\pid.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
@@ -34,9 +34,9 @@
 ..\obj\pid.o: ..\SYSTEM\delay\delay.h
 ..\obj\pid.o: ..\HARDWARE\key\key.h
 ..\obj\pid.o: ..\SYSTEM\usart\usart.h
-..\obj\pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\pid.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\pid.o: ..\HARDWARE\pwm\pwm.h
 ..\obj\pid.o: ..\HARDWARE\lcd\lcd.h
-..\obj\pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\pid.o: D:\KEIL5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\pid.o: ..\HARDWARE\IIC\iic.h
 ..\obj\pid.o: ..\HARDWARE\24C02\24C02.h
