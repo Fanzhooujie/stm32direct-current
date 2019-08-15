@@ -38,17 +38,17 @@ void PID_init(void){
   pid.Kd=KD;
 }
 
-float PID_realize(float Nowspeed){              //目前速度的差速pid
+float PID_realize(float Nowspeed){              //目前 速度/角度 的差速pid
 	float INPWM=0.0;                             //PWM偏差值
 	pid.Kp=KP;
   pid.Ki=KI;
   pid.Kd=KD;
-	if(MODE==1)
+	if(MODE==1)         //速度PID模式
 	pid.SetSpeed=SV;
-	else if(MODE==0)
+	else if(MODE==0)    //角度PID模式
 	pid.SetSpeed=GL;
-	
-  pid.err=pid.SetSpeed-Nowspeed;
+
+  pid.err=pid.SetSpeed-Nowspeed;  //实际偏差值
   INPWM=pid.Kp*(pid.err-pid.err_next)+pid.Ki*pid.err+pid.Kd*(pid.err-2*pid.err_next+pid.err_last);
   pid.OUTPWM+=INPWM;
 	if(pid.OUTPWM>1000)
@@ -57,7 +57,7 @@ float PID_realize(float Nowspeed){              //目前速度的差速pid
 		pid.OUTPWM=0;
 	pid.err_last=pid.err_next;
   pid.err_next=pid.err;
-  return pid.OUTPWM;
+  return pid.OUTPWM;    //返回输出PWM重载值
 }
 
 
