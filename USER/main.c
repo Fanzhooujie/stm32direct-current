@@ -3,11 +3,14 @@
 #include "key.h"
 #include "sys.h"
 #include "usart.h"
+#include "input.h"
 #include "pwm.h"
 #include "pid.h"
 #include "lcd.h"
 #include "iic.h"
 #include "24C02.h"
+#include "my-printf.h"
+
 
 extern u8 sum;
 extern u8 MODE;
@@ -54,7 +57,7 @@ extern float GL;
 				changeDat=PID_realize(angle);    //占空比重载值
 			else if(sum>=number)
 				TIM_SetCompare2(TIM3,0);       //pid控制占空比
-			  LCD_Angle(angle,changeDat);
+			  LCD_Angle(angle,changeDat);		
 		}
 	}
 }
