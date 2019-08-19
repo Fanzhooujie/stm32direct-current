@@ -9,7 +9,6 @@
 #include "iic.h"
 #include "24C02.h"
 
-extern u8 MODE;
 extern float GL;
 float KP=0.10;
 float KI=0.50;
@@ -43,11 +42,7 @@ float PID_realize(float Nowspeed){              //目前 速度/角度 的差速pid
 	pid.Kp=KP;
   pid.Ki=KI;
   pid.Kd=KD;
-	if(MODE==1)         //速度PID模式
 	pid.SetSpeed=SV;
-	else if(MODE==0)    //角度PID模式
-	pid.SetSpeed=GL;
-
   pid.err=pid.SetSpeed-Nowspeed;  //实际偏差值
   INPWM=pid.Kp*(pid.err-pid.err_next)+pid.Ki*pid.err+pid.Kd*(pid.err-2*pid.err_next+pid.err_last);
   pid.OUTPWM+=INPWM;

@@ -5,8 +5,8 @@
 #include "24C02.h"
 #include "led.h"
 #include "delay.h"
-#include "string.h"
 #include "my-printf.h"
+#include "usartS.h"
 
 
 #if SYSTEM_SUPPORT_OS
@@ -92,13 +92,6 @@ void uart_init(u32 bound){
 
 }
 u8 len;
-extern unsigned char lcd_X[80];
-extern u8 datatemp[200];
-extern	float KP;
-extern float KI;
-extern float KD;
-extern float SV;
-extern float GL;
 
 void USART1_IRQHandler(void)                	//串口1中断服务程序
 	{
@@ -122,7 +115,6 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 					len=USART_RX_STA&0x3fff;//此次接收到的长度
 					USART_Change(USART_RX_BUF);//引用函数
 					USART_RX_STA=0;//标记为位清零
-							LED1!=LED1;
 				}
 			  }
 				}
@@ -144,65 +136,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 } 
 #endif	
 
-void USART_Change(u8 *str)
-{
-  float X,Y;
-	u8 a=0,b=0,c=0,d=0,e=0;
-	while(len--)
-	{ 
-		a++;  //小数点后面位数a
-		if(USART_RX_BUF[len-1]=='.')
-	  {
-     if     (a==1){X=(USART_RX_BUF[len]-'0')*0.1;}//小数点后为一位时的数值
-		 else if(a==2){X=(USART_RX_BUF[len]-'0')*0.1+(USART_RX_BUF[len+1]-'0')*0.01;}//小数点后为两位时的数值
-		 else if(a==3){X=(USART_RX_BUF[len]-'0')*0.1+(USART_RX_BUF[len+1]-'0')*0.01+(USART_RX_BUF[len+2]-'0')*0.001;}//小数点后为三位时的数值
-		 len=USART_RX_STA&0x3fff;//此次接收到的长度
-		 break;}
-	}
-	while(len--)
-	{
-		b++; //等号后面的位数b
-		if(USART_RX_BUF[len-1]=='=')		
-		{	
-			c=USART_RX_BUF[len-2];//数组的第二个字符
-			d=USART_RX_BUF[len-3];//数组的第一个字符 
-			e=b-a;//等号与小数点之间的位数	
-			if(e==2)      {Y=USART_RX_BUF[len]-'0';}  //只有个位时
-			else if(e==3) {Y=(USART_RX_BUF[len]-'0')*10+USART_RX_BUF[len+1]-'0';} //有两位数
-			else if(e==4) {Y=(USART_RX_BUF[len]-'0')*100+(USART_RX_BUF[len+1]-'0')*10+USART_RX_BUF[len+2]-'0';}	//有三位数		
-			len=USART_RX_STA&0x3fff;//此次接收到的长度
-			break;				
-		}
-	}
-	myprintf("   %s",USART_RX_BUF);
-	myprintf("   %d",len);
-	
-		
-		 if(d=='K'&&c=='P')
-		 {
-			 KP=X+Y;sprintf((char*)lcd_X,"KP:%7.3f",KP);AT24CXX_Write(61,(u8*)lcd_X,20);LCD_ShowString(225,20,200,16,16,lcd_X);
-		 }
-		 if(d=='K'&&c=='I')
-		 {
-			 KI=X+Y;sprintf((char*)lcd_X,"KI:%7.3f",KI);AT24CXX_Write(41,(u8*)lcd_X,20);LCD_ShowString(225,40,200,16,16,lcd_X);
-		 }
-		 if(d=='K'&&c=='D')
-		 {
-			 KD=X+Y;sprintf((char*)lcd_X,"KD:%7.3f",KD);AT24CXX_Write(21,(u8*)lcd_X,20); LCD_ShowString(225,60,200,16,16,lcd_X);
-		 }
-		 if(d=='S'&&c=='V')
-		 {
-			 SV=X+Y;sprintf((char*)lcd_X,"SV:%7.3f",SV);AT24CXX_Write(0,(u8*)lcd_X,20);LCD_ShowString(225,80,200,16,16,lcd_X);
-		 }
-		 if(d=='G'&&c=='L')
-		 {
-			 GL=X+Y;sprintf((char*)lcd_X,"GL:%7.3f",GL);AT24CXX_Write(81,(u8*)lcd_X,20); LCD_ShowString(225,100,200,16,16,lcd_X);
-		 }
-		 delay_ms(1000);
-		 memset(USART_RX_BUF,0,sizeof(USART_RX_BUF));//接收数组清零
-		 len=0;//长度清零	
-		 X=0;Y=0;a=0;b=0;c=0;d=0;e=0;
-}
+
 
 
 

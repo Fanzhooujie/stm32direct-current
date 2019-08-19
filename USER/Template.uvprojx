@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\key;..\HARDWARE\lcd;..\HARDWARE\led;..\HARDWARE\pid;..\HARDWARE\pwm;..\HARDWARE\IIC;..\HARDWARE\24C02;..\HARDWARE\my-printf;..\HARDWARE\input</IncludePath>
+              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\key;..\HARDWARE\lcd;..\HARDWARE\led;..\HARDWARE\pid;..\HARDWARE\pwm;..\HARDWARE\IIC;..\HARDWARE\24C02;..\HARDWARE\my-printf;..\HARDWARE\input;..\HARDWARE\usartSend</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -492,6 +492,11 @@
               <FileName>input.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\input\input.c</FilePath>
+            </File>
+            <File>
+              <FileName>usartS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\usartSend\usartS.c</FilePath>
             </File>
           </Files>
         </Group>
