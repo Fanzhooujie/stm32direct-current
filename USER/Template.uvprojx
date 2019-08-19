@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\key;..\HARDWARE\lcd;..\HARDWARE\led;..\HARDWARE\pid;..\HARDWARE\pwm;..\HARDWARE\IIC;..\HARDWARE\24C02;..\HARDWARE\my-printf</IncludePath>
+              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\key;..\HARDWARE\lcd;..\HARDWARE\led;..\HARDWARE\pid;..\HARDWARE\pwm;..\HARDWARE\IIC;..\HARDWARE\24C02;..\HARDWARE\my-printf;..\HARDWARE\input</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -487,6 +487,11 @@
               <FileName>my-printf.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\my-printf\my-printf.c</FilePath>
+            </File>
+            <File>
+              <FileName>input.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\input\input.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -2842,9 +2842,9 @@ void LCD_Coor(float DATE,float changeDat)
 	LCD_DrawLine(20,20,20,220);
 	LCD_DrawLine(20,220,220,220);
   LCD_ShowString(25,20,200,16,16,"r/s");
-  	sprintf((char*)lcd_DATA,"Rad:%0.2f",DATE);
+  	sprintf((char*)lcd_DATA,"Rad:%7.3f",DATE);
   LCD_ShowString(225,140,200,16,16,lcd_DATA);
-	  sprintf((char*)lcd_DATA,"Duty:%0.2f",Duty);
+	  sprintf((char*)lcd_DATA,"Duty:%7.3f",Duty);
   LCD_ShowString(225,160,200,16,16,lcd_DATA);
 	LCD_ShowString(15,220,200,12,12,"0");   //纵坐标
 	LCD_ShowString(5,200,200,12,12,"20");
@@ -2882,15 +2882,15 @@ void LCD_dateInit(void)            //显示参数的初始化
  extern float SV;
  extern float GL;
 	LCD_Display_Dir(1);   //横屏
-    sprintf((char*)lcd_X,"KP:%0.2f",KP);
+    sprintf((char*)lcd_X,"KP:%7.3f",KP);
   LCD_ShowString(225,20,200,16,16,lcd_X);
-		sprintf((char*)lcd_X,"KI:%0.2f",KI);
+		sprintf((char*)lcd_X,"KI:%7.3f",KI);
   LCD_ShowString(225,40,200,16,16,lcd_X);
-		sprintf((char*)lcd_X,"KD:%0.2f",KD);
+		sprintf((char*)lcd_X,"KD:%7.3f",KD);
   LCD_ShowString(225,60,200,16,16,lcd_X);
-	  sprintf((char*)lcd_X,"SV:%0.1f",SV);
+	  sprintf((char*)lcd_X,"SV:%7.3f",SV);
   LCD_ShowString(225,80,200,16,16,lcd_X);
-	  sprintf((char*)lcd_X,"GL:%0.1f",GL);
+	  sprintf((char*)lcd_X,"GL:%7.3f",GL);
   LCD_ShowString(225,100,200,16,16,lcd_X);
 
 }
@@ -2925,15 +2925,15 @@ void LCD_Angle(float gle,float changeDat)
 	LCD_ShowString(1,60,200,12,12,"320");
 	LCD_ShowString(1,40,200,12,12,"360");
   LCD_dateInit();		
-	 sprintf((char*)lcd_X,"angle:%0.2f",angle);
+	 sprintf((char*)lcd_X,"angle:%7.3f",angle);
   LCD_ShowString(225,140,200,16,16,lcd_X);
-	 sprintf((char*)lcd_X,"Duty:%0.2f",Duty);
+	 sprintf((char*)lcd_X,"Duty:%7.3f",Duty);
   LCD_ShowString(225,160,200,16,16,lcd_X);
   Lastx=x;
 	Lasty=y;
-	if(sum==0) y=220;
-	else if(sum==344) y=0;
-	else if(sum>0&&sum<344) y=220-angle/2;
+	if(angle==0) y=220;
+	else if(angle>=360) y=40;
+	else if(angle>0&&angle<360) y=220-angle/2;
 	x++;
 	LCD_Fill(x,0,x,219,WHITE);
 	if(x>220) x=20,Lastx=20,Lasty=220;

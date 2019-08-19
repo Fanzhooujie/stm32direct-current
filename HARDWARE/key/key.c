@@ -61,37 +61,37 @@ u8 Key_Scan(void)
     GPIO_Write(GPIOF,(GPIOF->ODR & 0xfff0 )| 0x0001);//让PA8-11输出0001，检测第四行
       switch(GPIOF->IDR & 0x00f0)
         {                               //改变数值并写入
-            case 0x0010 : SV+=1;sprintf((char*)lcd_X,"SV:%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=1;break;
-            case 0x0020 : SV-=1;sprintf((char*)lcd_X,"SV:%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X); keyValue=5;break;				
-            case 0x0040 : SV+=10;sprintf((char*)lcd_X,"SV:%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=9;break;
-            case 0x0080 : SV-=10;sprintf((char*)lcd_X,"SV:%0.1f",SV);AT24CXX_Write(0,(u8*)lcd_X,10);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=13;break;    
+            case 0x0010 : SV+=1;sprintf((char*)lcd_X,"SV:%7.3f",SV);AT24CXX_Write(0,(u8*)lcd_X,20);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=1;break;
+            case 0x0020 : SV-=1;sprintf((char*)lcd_X,"SV:%7.3f",SV);AT24CXX_Write(0,(u8*)lcd_X,20);LCD_ShowString(225,80,200,16,16,lcd_X); keyValue=5;break;				
+            case 0x0040 : SV+=10;sprintf((char*)lcd_X,"SV:%7.3f",SV);AT24CXX_Write(0,(u8*)lcd_X,20);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=9;break;
+            case 0x0080 : SV-=10;sprintf((char*)lcd_X,"SV:%7.3f",SV);AT24CXX_Write(0,(u8*)lcd_X,20);LCD_ShowString(225,80,200,16,16,lcd_X);keyValue=13;break;    
         }
 				 while((GPIOF->IDR & 0x00f0)	> 0);  //等待按键释放
     
     GPIO_Write(GPIOF,(GPIOF->ODR & 0xfff0 )| 0x0002);//让PA8-11输出0010，检测第三行
       switch(GPIOF->IDR & 0x00f0)
         {
-            case 0x0010 : KD+=0.1;sprintf((char*)lcd_X,"KD:%0.2f",KD);AT24CXX_Write(21,(u8*)lcd_X,10); LCD_ShowString(225,60,200,16,16,lcd_X);keyValue=2;break;					                                                                                                  
-            case 0x0020 : KD-=0.1;sprintf((char*)lcd_X,"KD:%0.2f",KD);AT24CXX_Write(21,(u8*)lcd_X,10); LCD_ShowString(225,60,200,16,16,lcd_X);keyValue=6;break;
-            case 0x0040 : GL+=10.0;sprintf((char*)lcd_X,"GL:%0.2f",GL);AT24CXX_Write(81,(u8*)lcd_X,10); LCD_ShowString(225,100,200,16,16,lcd_X);keyValue=10;break;
-            case 0x0080 : GL-=10.0;sprintf((char*)lcd_X,"GL:%0.2f",GL);AT24CXX_Write(81,(u8*)lcd_X,10); LCD_ShowString(225,100,200,16,16,lcd_X);keyValue=14;break; 
+            case 0x0010 : KD+=0.1;sprintf((char*)lcd_X,"KD:%7.3f",KD);AT24CXX_Write(21,(u8*)lcd_X,20); LCD_ShowString(225,60,200,16,16,lcd_X);keyValue=2;break;					                                                                                                  
+            case 0x0020 : KD-=0.1;sprintf((char*)lcd_X,"KD:%7.3f",KD);AT24CXX_Write(21,(u8*)lcd_X,20); LCD_ShowString(225,60,200,16,16,lcd_X);keyValue=6;break;
+            case 0x0040 : GL+=10.0;sprintf((char*)lcd_X,"GL:%7.3f",GL);AT24CXX_Write(81,(u8*)lcd_X,20); LCD_ShowString(225,100,200,16,16,lcd_X);keyValue=10;break;
+            case 0x0080 : GL-=10.0;sprintf((char*)lcd_X,"GL:%7.3f",GL);AT24CXX_Write(81,(u8*)lcd_X,20); LCD_ShowString(225,100,200,16,16,lcd_X);keyValue=14;break; 
         }
 				 while((GPIOF->IDR & 0x00f0)	> 0);
     
     GPIO_Write(GPIOF,(GPIOF->ODR & 0xfff0 )| 0x0004);//让PA8-11输出0100，检测第二行
       switch(GPIOF->IDR & 0x00f0)
         {
-            case 0x0010 : KI+=0.1;sprintf((char*)lcd_X,"KI:%0.2f",KI);AT24CXX_Write(41,(u8*)lcd_X,10);LCD_ShowString(225,40,200,16,16,lcd_X); keyValue=3;break;
-            case 0x0020 : KI-=0.1;sprintf((char*)lcd_X,"KP:%0.2f",KP);AT24CXX_Write(41,(u8*)lcd_X,10);LCD_ShowString(225,40,200,16,16,lcd_X); keyValue=7;break;
+            case 0x0010 : KI+=0.1;sprintf((char*)lcd_X,"KI:%7.3f",KI);AT24CXX_Write(41,(u8*)lcd_X,20);LCD_ShowString(225,40,200,16,16,lcd_X); keyValue=3;break;
+            case 0x0020 : KI-=0.1;sprintf((char*)lcd_X,"KP:%7.3f",KP);AT24CXX_Write(41,(u8*)lcd_X,20);LCD_ShowString(225,40,200,16,16,lcd_X); keyValue=7;break;
             case 0x0040 : LCD_Fill(0,0,340,240,WHITE);MODE=0;keyValue=11;break;
-            case 0x0080 : GL-=1.0;sprintf((char*)lcd_X,"GL:%0.2f",GL);AT24CXX_Write(81,(u8*)lcd_X,10); LCD_ShowString(225,100,200,16,16,lcd_X);keyValue=15;break; 
+            case 0x0080 : GL-=1.0;sprintf((char*)lcd_X,"GL:%7.3f",GL);AT24CXX_Write(81,(u8*)lcd_X,20); LCD_ShowString(225,100,200,16,16,lcd_X);keyValue=15;break; 
         }
 				 while((GPIOF->IDR & 0x00f0)	> 0);
     GPIO_Write(GPIOF,(GPIOF->ODR & 0xfff0 )| 0x0008);//让PA8-11输出1000，检测第一行
       switch(GPIOF->IDR & 0x00f0)
         {
-            case 0x0010 : KP+=0.1;sprintf((char*)lcd_X,"KP:%0.2f",KP);AT24CXX_Write(61,(u8*)lcd_X,10);LCD_ShowString(225,20,200,16,16,lcd_X);keyValue=4;break;
-            case 0x0020 : KP-=0.1;sprintf((char*)lcd_X,"KP:%0.2f",KP);AT24CXX_Write(61,(u8*)lcd_X,10);LCD_ShowString(225,20,200,16,16,lcd_X);keyValue=8;break;
+            case 0x0010 : KP+=0.1;sprintf((char*)lcd_X,"KP:%7.3f",KP);AT24CXX_Write(61,(u8*)lcd_X,20);LCD_ShowString(225,20,200,16,16,lcd_X);keyValue=4;break;
+            case 0x0020 : KP-=0.1;sprintf((char*)lcd_X,"KP:%7.3f",KP);AT24CXX_Write(61,(u8*)lcd_X,20);LCD_ShowString(225,20,200,16,16,lcd_X);keyValue=8;break;
             case 0x0040 : LCD_Fill(0,0,340,240,WHITE);MODE=1;keyValue=12;break;
             case 0x0080 : LCD_Fill(210,20,340,120,WHITE); 			
 	                        AT24CXX_Read(0,datatemp,40); SV=Translatdata();LCD_ShowString(225,80,200,16,16,datatemp);     //读取改变量

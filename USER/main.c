@@ -38,11 +38,12 @@ extern float GL;
 	LED1=0;
    	while(1)
 	{
+		delay_ms(20);
     Key_Scan();
 		temp=TIM5CH1_CAPTURE_HIGHTIME();//一周期脉冲高电平时间
 		Rad=1000000/temp/668.0;         //目前转速
-    if(sum>=334) sum=0; 
-  	angle=sum*360/668*2.0;         //目前角度       
+  	angle=sum*360/668*2.0;         //目前角度  
+		if(angle>=360) sum=0;		
     if(angle>GL){angle=0;sum=0;}
 	  else if(angle<=0) angle=0;
 		if(MODE==1)                         //速度界面显示
